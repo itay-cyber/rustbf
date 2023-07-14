@@ -2,4 +2,13 @@
 A brainfuck interpreter (maybe compiler?) in rust
 
 
-Currently the filename is hardcoded, so if you really want to run your own brainfuck program, change it in main.rs.
+# Usage:
+1. Find out how Brainfuck works [here](https://en.wikipedia.org/wiki/Brainfuck)
+
+`cargo run {filename}`
+
+- The file has to have an extension of .bf
+- Any characters or words other than > < + - , . [] = are regarded as comments by the interpreter
+- Loops are not implemented yet!
+- Use `=` to output the literal value of the cell, and use `.` to output the ascii character corresponding to the cell's value.
+
