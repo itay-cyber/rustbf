@@ -1,6 +1,7 @@
 use bfops::BFFFile;
 use bfops::BFOp;
 use bfops::BFOpType;
+use std::env;
 mod bfops;
 
 const MAX_ARRAY_SIZE: usize = 30000;
@@ -15,7 +16,8 @@ fn get_operations(fcontents: &String) -> Vec<BFOp> {
     ops
 }
 fn main() {
-    let test_file = BFFFile::new("input.bf");
+    let args: Vec<String> = env::args().collect();
+    let test_file = BFFFile::new(&args[1]);
     let file_contents = process_file(&test_file.read());
     let ops = get_operations(&file_contents);
 
