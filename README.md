@@ -9,6 +9,5 @@ A brainfuck interpreter (maybe compiler?) in rust
 
 - The file has to have an extension of .bf
 - Any characters or words other than > < + - , . [] = are regarded as comments by the interpreter
-- Loops are not implemented yet!
 - Use `=` to output the literal value of the cell, and use `.` to output the ascii character corresponding to the cell's value.
 
