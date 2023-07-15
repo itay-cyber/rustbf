@@ -144,7 +144,9 @@ impl BFOp {
                     Err("Syntax error: end of loop not found.".to_string())
                 }
             }
-            BFOpType::OpLoopEnd => todo!(),
+            BFOpType::OpLoopEnd => {
+                Ok(MAX_ARRAY_SIZE + 2) // return loop end
+            },
             BFOpType::OpNumOut => {
                 if pointer != MAX_ARRAY_SIZE {
                     print!("{}\n", arr[pointer]);
@@ -188,5 +190,6 @@ fn get_cell_inp() -> i32 {
     }
 }
 fn check_for_end_of_loop(ops: &Vec<BFOp>) -> bool {
-    ops.iter().any(|op| op.get_op_type() == BFOpType::OpLoopEnd)
+    let index_of_start = ops.iter().position(|op| op.get_op_char() == '[').unwrap();
+    ops.iter().skip(index_of_start).any(|op| op.get_op_type() == BFOpType::OpLoopEnd)
 }
