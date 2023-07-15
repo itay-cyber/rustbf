@@ -2,7 +2,7 @@ use crate::MAX_ARRAY_SIZE;
 use std::fs::File;
 use std::io::{self, prelude::*};
 use std::path::Path;
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum BFOpType {
     OpMoveRight,
     OpMoveLeft,
@@ -57,8 +57,8 @@ impl BFOp {
             op_char,
         }
     }
-    pub fn get_op_type(&self) -> &BFOpType {
-        &self.op_type
+    pub fn get_op_type(&self) -> BFOpType {
+        self.op_type.clone()
     }
     pub fn get_op_char(&self) -> char {
         self.op_char
@@ -137,7 +137,13 @@ impl BFOp {
                     Err("Index out of range".to_string())
                 }
             }
-            BFOpType::OpLoopStart => todo!(),
+            BFOpType::OpLoopStart => {
+                if check_for_end_of_loop(&op_vec) {
+                    Ok(MAX_ARRAY_SIZE + 1) // return loop start
+                } else {
+                    Err("Syntax error: end of loop not found.".to_string())
+                }
+            }
             BFOpType::OpLoopEnd => todo!(),
             BFOpType::OpNumOut => {
                 if pointer != MAX_ARRAY_SIZE {
@@ -180,4 +186,7 @@ fn get_cell_inp() -> i32 {
         Ok(n) => n as i32,
         Err(_) => -1,
     }
+}
+fn check_for_end_of_loop(ops: &Vec<BFOp>) -> bool {
+    ops.iter().any(|op| op.get_op_type() == BFOpType::OpLoopEnd)
 }

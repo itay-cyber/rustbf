@@ -1,10 +1,11 @@
 use bfops::BFFFile;
 use bfops::BFOp;
-use bfops::BFOpType;
 use std::env;
 mod bfops;
 
 const MAX_ARRAY_SIZE: usize = 30000;
+const LOOP_START: usize = 30001;
+
 fn process_file(contents: &String) -> String {
     contents.trim().replace(" ", "").to_string()
 }
@@ -23,11 +24,17 @@ fn main() {
 
     let mut pointer = 0;
     let mut prog: [u32; MAX_ARRAY_SIZE] = [0; MAX_ARRAY_SIZE];
-
+    let mut is_loop: bool = false;
+    let mut loop_counter: u32;
     for op in &ops {
         match BFOp::run_op(&op, &mut prog, pointer, &ops) {
             Ok(got_pointer) => {
-                pointer = got_pointer;
+                if got_pointer == LOOP_START {
+                    is_loop = true;
+                    loop_counter = prog[pointer];
+                } else {
+                    pointer = got_pointer;
+                }
             }
             Err(why) => {
                 if why != "OpNull" {
